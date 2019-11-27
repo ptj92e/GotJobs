@@ -1,0 +1,36 @@
+body {
+    
+}
+header {
+    background-color: #79387c;
+    padding: 10px;
+}
+footer {
+    background-color: #79387c;
+    padding: 10px;
+    color: white;
+}
+h1 {
+    font-family: 'Sulphur Point', sans-serif;
+    color: white;
+}
+h3 {
+    font-family: 'Sulphur Point', sans-serif;
+}
+p {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.card-body {
+    background-color: #eeeeeed7;
+}
+.btn {
+    background-color: #79387c;
+    border-color: #79387c;
+    color: white;
+}
+.quality {
+    background-color: #01e7f3;
+}
+.map {
+    background-color: #01e7f3;
+}
