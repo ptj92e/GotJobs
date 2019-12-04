@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    let isMessageHidden= true; 
+
     function clearJobPosts(){
         $(".location").text(""); 
         $(".position").text("");
@@ -27,6 +29,11 @@ $(document).ready(function(){
             console.log(results); 
             let jobCount=1; 
             if (results.length !== 0){
+                if (!isMessageHidden) {
+                    $("#message").hide(); 
+                    isMessageHidden=true; 
+                    $(".job").show(); 
+                }
                 for (let i=0; i<results.length; i++){
                     let city= results[i].locations[0].name;
                     console.log(city); 
@@ -39,9 +46,13 @@ $(document).ready(function(){
                     jobEl.find(".qualifications").text(results[i].levels[0].name); 
                     jobCount++; 
                 } 
-            } else {
+            } else { 
                 clearJobPosts(); 
                 console.log("There are no results"); 
+                $("#message").removeAttr("hidden"); 
+                $("#message").show();  
+                isMessageHidden=false; 
+                $(".job").hide(); 
             }
             
         }); 
