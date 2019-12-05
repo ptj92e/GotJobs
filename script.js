@@ -1,4 +1,16 @@
 $(document).ready(function(){
+
+    let isMessageHidden= true; 
+
+    function clearJobPosts(){
+        $(".location").text(""); 
+        $(".position").text("");
+        $(".description").text("");
+        $(".description").attr("href", "");
+        $(".company").text("");
+        $(".qualifications").text("");
+    }
+
     function searchJobs(){
         let location= $("#cityInput").val();
         let category= $("#keywordInput").val(); 
@@ -16,18 +28,33 @@ $(document).ready(function(){
             let results= response.results;
             console.log(results); 
             let jobCount=1; 
-            for (let i=0; i<results.length; i++){
-                let city= results[i].locations[0].name;
-                console.log(city); 
-                let jobEl=$("#job"+jobCount); 
-                jobEl.find(".location").text(city); 
-                jobEl.find(".position").text(results[i].name); 
-                jobEl.find(".description").text(results[i].refs.landing_page);
-                jobEl.find(".description").attr("href", results[i].refs.landing_page); 
-                jobEl.find(".company").text(results[i].company.name); 
-                jobEl.find(".qualifications").text(results[i].levels[0].name); 
-                jobCount++; 
-            } 
+            if (results.length !== 0){
+                if (!isMessageHidden) {
+                    $("#message").hide(); 
+                    isMessageHidden=true; 
+                    $(".job").show(); 
+                }
+                for (let i=0; i<results.length; i++){
+                    let city= results[i].locations[0].name;
+                    console.log(city); 
+                    let jobEl=$("#job"+jobCount); 
+                    jobEl.find(".location").text(city); 
+                    jobEl.find(".position").text(results[i].name); 
+                    jobEl.find(".description").text(results[i].refs.landing_page);
+                    jobEl.find(".description").attr("href", results[i].refs.landing_page); 
+                    jobEl.find(".company").text(results[i].company.name); 
+                    jobEl.find(".qualifications").text(results[i].levels[0].name); 
+                    jobCount++; 
+                } 
+            } else { 
+                clearJobPosts(); 
+                console.log("There are no results"); 
+                $("#message").removeAttr("hidden"); 
+                $("#message").show();  
+                isMessageHidden=false; 
+                $(".job").hide(); 
+            }
+            
         }); 
     }
     
