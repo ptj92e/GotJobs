@@ -26,6 +26,17 @@ $(document).ready(function(){
         }
         console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
     }
+  
+    let isMessageHidden= true; 
+
+    function clearJobPosts(){
+        $(".location").text(""); 
+        $(".position").text("");
+        $(".description").text("");
+        $(".description").attr("href", "");
+        $(".company").text("");
+        $(".qualifications").text("");
+    }
 
     function searchJobs(){
         searchLocation= $("#cityInput").val();
