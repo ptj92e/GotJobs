@@ -23,19 +23,22 @@ $(document).ready(function(){
         let results= response.results;
         let jobCount=1;
         $(".job").show(); 
+        let difference= results.length-ongoingJobCount; 
         console.log("The length of results is"+ results.length);
-        console.log("And you are on the "+ongoingJobCount+" job"); 
-        if (results.length !== 0 & !isLastResult){
+        console.log("And you are on the "+ongoingJobCount+" job");
+        console.log("And the difference is "+difference);
+        console.log(results); 
+        debugger; 
+        if (difference !== 0 & !isLastResult){
             if (!isMessageHidden) {
                 $("#message").hide(); 
                 isMessageHidden=true;   
-            }
-            console.log(results.length); 
-            if (results.length<5){
-                let numberOfBlanks= 5-results.length;
-                while (numberOfBlanks <6){
-                    $("#job"+numberOfBlanks).parent().hide();
-                    numberOfBlanks++; 
+            } 
+            if (difference<5){
+                let startOfBlanks= difference+ 1;
+                while (startOfBlanks <6){
+                    $("#job"+startOfBlanks).parent().hide();
+                    startOfBlanks++; 
                 }
                 isLastResult=true; 
             }
