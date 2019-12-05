@@ -9,6 +9,9 @@ footer {
     background-color: #79387c;
     padding: 10px;
     color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }
 h1 {
     font-family: 'Sulphur Point', sans-serif;
@@ -33,4 +36,7 @@ p {
 }
 .map {
     background-color: #01e7f3;
+}
+#morebtn {
+    margin-bottom: 90px;
 }
