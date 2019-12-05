@@ -7,26 +7,6 @@ let category="";
 
 $(document).ready(function(){
 
-    function populateJobPostCards(initial, response){
-        let results= response.results;
-        let jobCount=1;
-        for (let i=initial; i<results.length; i++){
-            let jobEl=$("#job"+jobCount); 
-            jobEl.find(".location").text(results[i].locations[0].name); 
-            jobEl.find(".position").text(results[i].name); 
-            jobEl.find(".description").text(results[i].refs.landing_page);
-            jobEl.find(".description").attr("href", results[i].refs.landing_page); 
-            jobEl.find(".company").text(results[i].company.name); 
-            jobEl.find(".qualifications").text(results[i].levels[0].name); 
-            jobCount++; 
-            ongoingJobCount++; 
-            if(jobCount > 5){
-                break; 
-            }
-        }
-        console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
-    }
-  
     let isMessageHidden= true; 
 
     function clearJobPosts(){
@@ -38,6 +18,40 @@ $(document).ready(function(){
         $(".qualifications").text("");
     }
 
+    function populateJobPostCards(initial, response){
+        let results= response.results;
+        let jobCount=1;
+        if (results.length !== 0){
+            if (!isMessageHidden) {
+                $("#message").hide(); 
+                isMessageHidden=true; 
+                $(".job").show(); 
+            }
+            for (let i=initial; i<results.length; i++){
+                let jobEl=$("#job"+jobCount); 
+                jobEl.find(".location").text(results[i].locations[0].name); 
+                jobEl.find(".position").text(results[i].name); 
+                jobEl.find(".description").text(results[i].refs.landing_page);
+                jobEl.find(".description").attr("href", results[i].refs.landing_page); 
+                jobEl.find(".company").text(results[i].company.name); 
+                jobEl.find(".qualifications").text(results[i].levels[0].name); 
+                jobCount++; 
+                ongoingJobCount++; 
+                if(jobCount > 5){
+                    break; 
+                }
+            }
+            console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
+        } else { 
+            clearJobPosts(); 
+            console.log("There are no results"); 
+            $("#message").removeAttr("hidden"); 
+            $("#message").show();  
+            isMessageHidden=false; 
+            $(".job").hide(); 
+        }
+    }
+  
     function searchJobs(){
         searchLocation= $("#cityInput").val();
         category= $("#keywordInput").val(); 
