@@ -2,7 +2,6 @@ let searchLocation="";
 let theMuseApiKey="1f7d0ddf14cfd38dbdeeb9248ab3bff908d85e1bcc104a2a73cf76790d0c82eb";
 let page= 1; 
 let ongoingJobCount=0; 
-
 let category=""; 
 
 $(document).ready(function(){
@@ -21,11 +20,19 @@ $(document).ready(function(){
     function populateJobPostCards(initial, response){
         let results= response.results;
         let jobCount=1;
+        $(".job").show(); 
         if (results.length !== 0){
             if (!isMessageHidden) {
                 $("#message").hide(); 
-                isMessageHidden=true; 
-                $(".job").show(); 
+                isMessageHidden=true;   
+            }
+            console.log(results.length); 
+            if (results.length<5){
+                let numberOfBlanks= 5-results.length;
+                while (numberOfBlanks <6){
+                    $("#job"+numberOfBlanks).parent().hide();
+                    numberOfBlanks++; 
+                }
             }
             for (let i=initial; i<results.length; i++){
                 let jobEl=$("#job"+jobCount); 
