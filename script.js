@@ -3,6 +3,7 @@ let theMuseApiKey="1f7d0ddf14cfd38dbdeeb9248ab3bff908d85e1bcc104a2a73cf76790d0c8
 let page= 1; 
 let ongoingJobCount=0; 
 let category=""; 
+let isLastResult= false; 
 
 $(document).ready(function(){
 
@@ -18,10 +19,13 @@ $(document).ready(function(){
     }
 
     function populateJobPostCards(initial, response){
+        clearJobPosts();
         let results= response.results;
         let jobCount=1;
         $(".job").show(); 
-        if (results.length !== 0){
+        console.log("The length of results is"+ results.length);
+        console.log("And you are on the "+ongoingJobCount+" job"); 
+        if (results.length !== 0 & !isLastResult){
             if (!isMessageHidden) {
                 $("#message").hide(); 
                 isMessageHidden=true;   
@@ -33,6 +37,7 @@ $(document).ready(function(){
                     $("#job"+numberOfBlanks).parent().hide();
                     numberOfBlanks++; 
                 }
+                isLastResult=true; 
             }
             for (let i=initial; i<results.length; i++){
                 let jobEl=$("#job"+jobCount); 
@@ -49,8 +54,7 @@ $(document).ready(function(){
                 }
             }
             console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
-        } else { 
-            clearJobPosts(); 
+        } else {  
             console.log("There are no results"); 
             $("#message").removeAttr("hidden"); 
             $("#message").show();  
@@ -60,10 +64,11 @@ $(document).ready(function(){
     }
   
     function searchJobs(){
-        searchLocation= $("#cityInput").val();
-        category= $("#keywordInput").val(); 
+        searchLocation= $("#cityInput").val().trim();
+        category= $("#searchOptions").val(); 
+        console.log(category); 
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page=1&api_key="+theMuseApiKey; 
-
+        isLastResult=false; 
         $.ajax({
             url: theMuseURL,
             method: "GET"
