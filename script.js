@@ -75,8 +75,6 @@ $(document).ready(function(){
     }
 
     function moreJobs(){
-        // let location= $("#cityInput").val();
-        // let category= $("#keywordInput").val(); 
         if (ongoingJobCount === 20){
             page++;
             ongoingJobCount=0; 
