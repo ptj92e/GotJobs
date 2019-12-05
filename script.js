@@ -1,5 +1,6 @@
 let searchLocation="";
 let theMuseApiKey="1f7d0ddf14cfd38dbdeeb9248ab3bff908d85e1bcc104a2a73cf76790d0c82eb";
+let mapquestApiKey="jOoSJlKWI2v4lP46nMd8fKQ8SdfGXJkI"; 
 let page= 1; 
 let ongoingJobCount=0; 
 let category=""; 
@@ -24,11 +25,6 @@ $(document).ready(function(){
         let jobCount=1;
         $(".job").show(); 
         let difference= results.length-ongoingJobCount; 
-        console.log("The length of results is"+ results.length);
-        console.log("And you are on the "+ongoingJobCount+" job");
-        console.log("And the difference is "+difference);
-        console.log(results); 
-        debugger; 
         if (difference !== 0 & !isLastResult){
             if (!isMessageHidden) {
                 $("#message").hide(); 
@@ -98,10 +94,16 @@ $(document).ready(function(){
         }); 
 
     }  
+
+    function getMap(){
+        let mapquestUrl="https://open.mapquestapi.com/staticmap/v5/map?key="+mapquestApiKey+"&center="+searchLocation+"&size=600,400@2x"
+        $("#mapImg").attr("src", mapquestUrl); 
+    }
     
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
-        searchJobs(); 
+        searchJobs();
+        getMap();  
     }); 
 
     $("#morebtn").on("click", function(){
