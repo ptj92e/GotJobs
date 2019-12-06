@@ -16,8 +16,12 @@ $(document).ready(function(){
                         p2:""};
 
     let messageError={h3: "Input Error!",
-                        p1: "Check your spelling and make sure you enter the location as the full city name, state abbreviation.",
-                        P2: "For example: Nashville, TN"};
+                        p1: "Make sure you enter the location as the full city name, state abbreviation.",
+                        p2: "For example: Nashville, TN"};
+
+    let messageNoCategory= {h3: "Input Error!",
+                        p1: "You need to select a job type from the dropdown list.",
+                        p2: ""};
 
     function clearJobPosts(){
         $(".location").text(""); 
@@ -126,7 +130,11 @@ $(document).ready(function(){
                 $("#message").find("h3").text(messageError.h3);
                 $("#message").find("#p-one").text(messageError.p1);
                 $("#message").find("#p-two").text(messageError.p2); 
-            } 
+            } else if ($("#searchOptions").val()==="Please Select an Option"){
+                $("#message").find("h3").text(messageNoCategory.h3);
+                $("#message").find("#p-one").text(messageNoCategory.p1);
+                $("#message").find("#p-two").text(messageNoCategory.p2); 
+            }  
         }
     }
 
