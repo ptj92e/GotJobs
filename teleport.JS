@@ -50,7 +50,7 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (imgresponse) {
             console.log(imgresponse);
-            $("#picImg").attr("src", imgresponse.photos[0].image.mobile);
+            $("#backgroundImage").attr("style", "background-image: url(" + imgresponse.photos[0].image.mobile + "); background-repeat: no-repeat; background-size: cover;");
         })
 
     })

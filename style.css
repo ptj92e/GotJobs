@@ -1,6 +1,3 @@
-body {
-    
-}
 header {
     background-color: #79387c;
     padding: 10px;
@@ -41,6 +38,9 @@ p {
     margin-bottom: 80px;
 }
 #morebtn {
+    margin-bottom: 80px;
+}
+#backbtn {
     margin-bottom: 80px;
 }
 #mapHeader {
