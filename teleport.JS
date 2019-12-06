@@ -48,15 +48,9 @@ $(document).ready(function () {
         $.ajax({
             url: teleportImg,
             method: "GET"
-<<<<<<< HEAD
         }).then(function (imgresponse) {
             console.log(imgresponse);
             $("#picImg").attr("src", imgresponse.photos[0].image.mobile);
-=======
-        }).then(function(imgresponse){
-            console.log(imgresponse); 
-            $("#backgroundImage").attr("style", "background-image: url(" + imgresponse.photos[0].image.mobile + "); background-repeat: no-repeat; background-size: cover;");
->>>>>>> 22fdee7ab41e194e7adbc3436285cfd7446e0d5b
         })
 
     })
