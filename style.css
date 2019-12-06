@@ -38,6 +38,7 @@ p {
 .map {
     background-color: rgba(220, 220, 220, 0.7);
     border-color: rgb(220, 220, 220);
+    margin-bottom: 80px;
 }
 #morebtn {
     margin-bottom: 80px;
