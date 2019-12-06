@@ -206,33 +206,21 @@ $(document).ready(function(){
             console.log("job already saved"); 
         }
         addJobCardtoCarousel(newJobObject); 
-    }; 
-
-   
-
-    function saveJob(jobEl){
-        let newJobObject={};
-        newJobObject.location= jobEl.find(".location").text(); 
-        newJobObject.position=jobEl.find(".position").text(); 
-        newJobObject.description=jobEl.find(".description").text();
-        newJobObject.company=jobEl.find(".company").text(); 
-        newJobObject.qualifications=jobEl.find(".qualifications").text();
-        if ( newJobObject.location= jobEl.find(".location").text()===""){
-            break; 
-        } 
-        compareHistoryAndSave(newJobObject); 
     }
 
-    function deleteSavedJob(currentJob){
-        getHistory(); 
-        for (let i=0; i<savedJobs.length; i++){
-            if(savedJobs[i].description===currentJob){
-                savedJobs.splice(i,1); 
-            }
+    function saveJob(jobEl){
+        debugger; 
+        console.log(jobEl); 
+        let x=jobEl.find(".location").text(); 
+        if (x !==""){
+            let newJobObject={};
+            newJobObject.location= jobEl.find(".location").text(); 
+            newJobObject.position=jobEl.find(".position").text(); 
+            newJobObject.description=jobEl.find(".description").text();
+            newJobObject.company=jobEl.find(".company").text(); 
+            newJobObject.qualifications=jobEl.find(".qualifications").text();
+            compareHistoryAndSave(newJobObject); 
         }
-        localStorage.setItem(JSON.stringify(savedJobs));
-        // entireJobEl.remove(); 
-        console.log("job deleted"); 
     }
     
     function addJobCardtoCarousel(currentJob){
@@ -255,32 +243,29 @@ $(document).ready(function(){
         let deletebtn = $("<button>");
         deletebtn.addClass("delete btn");
         deletebtn.text("Delete");
-        // deletebtn.addEventListener("click", function(){
-        //     debugger; 
-        //     let currentJob=$(this).siblings(".description"); 
-        //     deleteSavedJob(currentJob); 
-        // })
+        deletebtn.on("click", function(){
+            event.stopPropagation(); 
+            let currentJob= $(this).parent(); 
+            deleteSavedJob(currentJob); 
+        });
         newItem.find(".buttonbox").append(deletebtn); 
         
     }
 
-    //trippy and not going to work
     function deleteSavedJob(currentJob){ 
         getHistory(); 
-        debugger; 
-        let currentDescription=$(currentJob).find(".description").text();
+        let entireJobEl= $(currentJob).parentsUntil(".stop"); 
+        let currentDescription=$(entireJobEl).find(".description").text();
         for (let i=0; i<savedJobs.length; i++){
             if(savedJobs[i].description=== currentDescription){
                 savedJobs.splice(i,1); 
             }
         }
         localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
-        let entireJobEl= $(currentJob).parentsUntil(".stop"); 
         console.log(entireJobEl); 
         console.log(currentJob); 
         console.log("next is ",$(entireJobEl).next().attr("class"));
         $(entireJobEl).addClass("deleted"); 
-        //"carousel-item active deleted"
         if ($(entireJobEl).next().attr("class") !== undefined){
             $(entireJobEl).next().addClass("active"); 
             $(entireJobEl).next().show(); 
@@ -289,12 +274,10 @@ $(document).ready(function(){
             $(entireJobEl).prev().show(); 
         }
         $(".deleted").remove();
-
         console.log("job deleted"); 
 
     }
-    function populateCarousel(){
-        // $(".stop").remove(); 
+    function populateCarousel(){ 
         getHistory();
         for (let i=0; i<savedJobs.length; i++){
             let currentJob=savedJobs[i];
@@ -311,15 +294,9 @@ $(document).ready(function(){
     
     $(".save").on("click", function(){
         event.preventDefault();
-        let jobEl= $(this).parent();  
+        let jobEl= $(this).parentsUntil(".job");  
         saveJob(jobEl); 
     })
-       
-    $(".delete").on("click", function(){
-        event.stopPropagation(); 
-        let currentJob= $(this).parent(); 
-        deleteSavedJob(currentJob); 
-    }); 
 
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
