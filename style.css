@@ -24,7 +24,7 @@ p {
     font-family: 'Source Sans Pro', sans-serif;
 }
 .card-body {
-    background-color: #eeeeeed7;
+    background-color: rgba(220, 220, 220, 0.7);
 }
 .btn {
     background-color: #79387c;
@@ -32,11 +32,17 @@ p {
     color: white;
 }
 .quality {
-    background-color: #01e7f3;
+    background-color: rgba(220, 220, 220, 0.7);
+    border-color: rgb(220, 220, 220);
 }
 .map {
-    background-color: #01e7f3;
+    background-color: rgba(220, 220, 220, 0.7);
+    border-color: rgb(220, 220, 220);
 }
 #morebtn {
-    margin-bottom: 90px;
+    margin-bottom: 80px;
+}
+#mapHeader {
+    font-family: 'Sulphur Point', sans-serif;
+    color: black;
 }
