@@ -13,6 +13,7 @@ $(document).ready(function () {
         let city2 = city.toString(); 
         let city3 = city2.replace(" ", "-");
         let teleport = "https://api.teleport.org/api/urban_areas/slug:" + city3 + "/scores/";
+        let chartTitle = $("#cityInput").val();
         console.log(city3);
 
         $.ajax({
@@ -39,7 +40,7 @@ $(document).ready(function () {
 
             let layout = {
                 title: {
-                  text:'',}};
+                  text:'Quality of Life Scores in ' + chartTitle,}};
 
             Plotly.newPlot("cityChart", data, layout);
         });
