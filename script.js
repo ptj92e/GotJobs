@@ -112,6 +112,27 @@ $(document).ready(function(){
 
     }  
 
+    function backJobs(){ 
+        // debugger; 
+        if(ongoingJobCount >5 || page >1){
+            ongoingJobCount -= 10;
+            if (ongoingJobCount <0 && page>1){
+                    ongoingJobCount = 15; 
+                    page--; 
+            } 
+            console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
+            let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
+
+            $.ajax({
+                url: theMuseURL,
+                method: "GET"
+            }).then(function(response){
+                populateJobPostCards(ongoingJobCount, response); 
+            }); 
+        }
+        
+    }
+
     function getMap(){
         let mapquestUrl="https://open.mapquestapi.com/staticmap/v5/map?key="+mapquestApiKey+"&center="+searchLocation+"&size=600,400@2x"
         $("#mapImg").attr("src", mapquestUrl); 
@@ -148,5 +169,10 @@ $(document).ready(function(){
         event.preventDefault(); 
         moreJobs(); 
     }); 
+
+    $("#backbtn").on("click", function(){
+        event.preventDefault();
+        backJobs();
+    })
 
 }); 
