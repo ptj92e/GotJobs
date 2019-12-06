@@ -6,11 +6,11 @@ $(document).ready(function () {
     // debugger;
 
     $(".btn").click(function () {
-
+        cityData = [];
         // console.log($("#cityInput").val());
 
         let city = $("#cityInput").val().toLowerCase().split(", ", 1);
-        let city2 = city.toString(); 
+        let city2 = city.toString();
         let city3 = city2.replace(" ", "-");
         let teleport = "https://api.teleport.org/api/urban_areas/slug:" + city3 + "/scores/";
         let chartTitle = $("#cityInput").val();
@@ -32,15 +32,23 @@ $(document).ready(function () {
             // console.log(cityData);
 
             let data = [{
-                type: "bar",
                 x: cityData,
                 y: cityDataName,
+                type: "bar",
+                text: cityData.map(String),
+                textposition: 'auto',
                 orientation: "h",
             }];
 
             let layout = {
-                title: {
-                  text:'Quality of Life Scores in ' + chartTitle,}};
+                title:'Quality of Life Scores in ' + chartTitle,
+                yaxis: {
+                    // tickangle: -45,
+                    automargin: true,
+                },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+            };
 
             Plotly.newPlot("cityChart", data, layout);
         });
