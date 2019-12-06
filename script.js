@@ -5,10 +5,13 @@ let page= 1;
 let ongoingJobCount=0; 
 let category=""; 
 let isLastResult= false; 
+let isMessageHidden= true; 
+let isMessage2Hidden= true; 
+let lowercase="abcdefghijklmnopqrstuvwxyz"; 
 
 $(document).ready(function(){
 
-    let isMessageHidden= true; 
+    
 
     function clearJobPosts(){
         $(".location").text(""); 
@@ -30,6 +33,10 @@ $(document).ready(function(){
                 $("#message").hide(); 
                 isMessageHidden=true;   
             } 
+            if (!isMessage2Hidden){
+                $("#message2").hide();
+                isMessage2Hidden=true; 
+            }
             if (difference<5){
                 let startOfBlanks= difference+ 1;
                 while (startOfBlanks <6){
@@ -74,7 +81,9 @@ $(document).ready(function(){
         }).then(function(response){  
             page=1; 
             ongoingJobCount=0; 
-            populateJobPostCards(0, response);     
+            populateJobPostCards(0, response);
+            // debugger;  
+            alertInput();     
         }); 
     }
 
@@ -100,10 +109,23 @@ $(document).ready(function(){
         $("#mapImg").attr("src", mapquestUrl); 
     }
     
+    function alertInput(){
+        if (!isMessageHidden){
+            let cityInput=$("#cityInput").val().trim(); 
+            cityInputArr= cityInput.split(", ");
+            console.log(cityInputArr);
+            if (cityInputArr.length !==2 || cityInputArr[1].length !== 2){
+                $("#message2").removeAttr("hidden");
+                $("#message2").show();
+                $("#job").hide();
+            }
+        }
+    }
+
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
         searchJobs();
-        getMap();  
+        getMap();   
     }); 
 
     $("#morebtn").on("click", function(){
