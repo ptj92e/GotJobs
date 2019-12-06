@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    let cityData = [];
+    let cityDataName = [];
 
 
     // debugger;
@@ -15,6 +17,28 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (response) {
             console.log(response);
+
+            for (let i = 0; i < response.categories.length; i++) {
+                score = response.categories[i].score_out_of_10;
+                score = score.toFixed();
+                cityData.push(score);
+                cityDataName.push(response.categories[i].name);
+            };
+            
+            console.log(cityData);
+            
+            let data = [{
+                type: "bar",
+                x: cityData,
+                y: cityDataName,
+                orientation: "h",
+                
+            }];
+    
+            Plotly.newPlot("cityChart", data);
+        });
+
+      
         })
 
         $.ajax({
@@ -24,6 +48,7 @@ $(document).ready(function () {
             console.log(imgresponse); 
             $("#picImg").attr("src", imgresponse.photos[0].image.mobile);
         })
+
     });
 });
 
