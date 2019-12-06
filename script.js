@@ -5,9 +5,7 @@ let page= 1;
 let ongoingJobCount=0; 
 let category=""; 
 let isLastResult= false; 
-let isMessageHidden= true; 
-let isMessage2Hidden= true; 
-let lowercase="abcdefghijklmnopqrstuvwxyz"; 
+// random change
 
 $(document).ready(function(){
 
