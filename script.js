@@ -26,24 +26,28 @@ $(document).ready(function(){
     function addButtons(){
         let jobCardEls=$(".job").children(); 
         for (let i=0; i<jobCardEls.length; i++){
+            let newDiv=$("<div>");
+            newDiv.addClass("jobsavebuttonbox d-flex justify-content-center");
             let newButton= $("<button>"); 
             newButton.attr("class", "save btn"); 
             newButton.text("Save"); 
-            $(jobCardEls[i]).append(newButton); 
+            $(newDiv).append(newButton); 
+            $(jobCardEls[i]).append(newDiv); 
         }
     }
 
-    function clearJobPosts(){
-        $(".location").text(""); 
-        $(".position").text("");
-        $(".description").text("");
-        $(".description").attr("href", "");
-        $(".company").text("");
-        $(".qualifications").text("");
-    }
+    //Don't think I need this and disrupts other code
+    // function clearJobPosts(){
+    //     $(".location").text(""); 
+    //     $(".position").text("");
+    //     $(".description").text("");
+    //     $(".description").attr("href", "");
+    //     $(".company").text("");
+    //     $(".qualifications").text("");
+    // }
 
     function populateJobPostCards(initial, response){
-        clearJobPosts();
+        // clearJobPosts();
         if (!isMessageHidden) {
             $("#message").hide(); 
             isMessageHidden=true;   
@@ -212,8 +216,23 @@ $(document).ready(function(){
         newJobObject.position=jobEl.find(".position").text(); 
         newJobObject.description=jobEl.find(".description").text();
         newJobObject.company=jobEl.find(".company").text(); 
-        newJobObject.qualifications=jobEl.find(".qualifications").text(); 
+        newJobObject.qualifications=jobEl.find(".qualifications").text();
+        if ( newJobObject.location= jobEl.find(".location").text()===""){
+            break; 
+        } 
         compareHistoryAndSave(newJobObject); 
+    }
+
+    function deleteSavedJob(currentJob){
+        getHistory(); 
+        for (let i=0; i<savedJobs.length; i++){
+            if(savedJobs[i].description===currentJob){
+                savedJobs.splice(i,1); 
+            }
+        }
+        localStorage.setItem(JSON.stringify(savedJobs));
+        // entireJobEl.remove(); 
+        console.log("job deleted"); 
     }
     
     function addJobCardtoCarousel(currentJob){
@@ -221,23 +240,65 @@ $(document).ready(function(){
         `    <div class="mt-2 mb-2 rounded">
                 <div class="card-body savedJob">
                     <h3>Position: <span class="position">${currentJob.position}</span></h3>
-                    <p>Location: <span class="location">${currentJob.locaton}</span></p>
+                    <p>Location: <span class="location">${currentJob.location}</span></p>
                     <p>Company: <span class="company">${currentJob.company}</span></p>
                     <p>Qualifications: <span class="qualifications">${currentJob.qualifications}</span></p>
                     <p>Description: <a href="${currentJob.description}" target="_blank" class="description">${currentJob.description}</a></p>
+                    <div class="buttonbox d-flex justify-content-center"></div>
                 </div>
             </div>`
         let newItem=$("<div>");
-        newItem.attr("class", "carousel-item");  
+        newItem.attr("class", "carousel-item");   
         newItem.html(htmlTemplate); 
         $(".carousel-inner").append(newItem);
+
+        let deletebtn = $("<button>");
+        deletebtn.addClass("delete btn");
+        deletebtn.text("Delete");
+        // deletebtn.addEventListener("click", function(){
+        //     debugger; 
+        //     let currentJob=$(this).siblings(".description"); 
+        //     deleteSavedJob(currentJob); 
+        // })
+        newItem.find(".buttonbox").append(deletebtn); 
+        
     }
 
+    //trippy and not going to work
+    function deleteSavedJob(currentJob){ 
+        getHistory(); 
+        debugger; 
+        let currentDescription=$(currentJob).find(".description").text();
+        for (let i=0; i<savedJobs.length; i++){
+            if(savedJobs[i].description=== currentDescription){
+                savedJobs.splice(i,1); 
+            }
+        }
+        localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
+        let entireJobEl= $(currentJob).parentsUntil(".stop"); 
+        console.log(entireJobEl); 
+        console.log(currentJob); 
+        console.log("next is ",$(entireJobEl).next().attr("class"));
+        $(entireJobEl).addClass("deleted"); 
+        //"carousel-item active deleted"
+        if ($(entireJobEl).next().attr("class") !== undefined){
+            $(entireJobEl).next().addClass("active"); 
+            $(entireJobEl).next().show(); 
+        } else {
+            $(entireJobEl).prev().addClass("active"); 
+            $(entireJobEl).prev().show(); 
+        }
+        $(".deleted").remove();
+
+        console.log("job deleted"); 
+
+    }
     function populateCarousel(){
+        // $(".stop").remove(); 
         getHistory();
         for (let i=0; i<savedJobs.length; i++){
             let currentJob=savedJobs[i];
-            addJobCardtoCarousel(currentJob); 
+            addJobCardtoCarousel(currentJob);
         }
     }
     function initializePage(){
@@ -254,6 +315,11 @@ $(document).ready(function(){
         saveJob(jobEl); 
     })
        
+    $(".delete").on("click", function(){
+        event.stopPropagation(); 
+        let currentJob= $(this).parent(); 
+        deleteSavedJob(currentJob); 
+    }); 
 
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
@@ -271,9 +337,5 @@ $(document).ready(function(){
         backJobs();
     })
 
-    // $("#carousel-control-prev").on("click", function(){
-    //     event.preventDefault();
-    //     populateCarousel(); 
-    // })
 
 }); 
