@@ -11,7 +11,13 @@ let lowercase="abcdefghijklmnopqrstuvwxyz";
 
 $(document).ready(function(){
 
-    
+    let messageSorry={h3: "Sorry!",
+                        p1: "Your search resulted in no job postings.",
+                        p2:""};
+
+    let messageError={h3: "Input Error!",
+                        p1: "Check your spelling and make sure you enter the location as the full city name, state abbreviation.",
+                        P2: "For example: Nashville, TN"};
 
     function clearJobPosts(){
         $(".location").text(""); 
@@ -24,19 +30,15 @@ $(document).ready(function(){
 
     function populateJobPostCards(initial, response){
         clearJobPosts();
+        if (!isMessageHidden) {
+            $("#message").hide(); 
+            isMessageHidden=true;   
+        } 
         let results= response.results;
         let jobCount=1;
         $(".job").show(); 
         let difference= results.length-ongoingJobCount; 
         if (difference !== 0 & !isLastResult){
-            if (!isMessageHidden) {
-                $("#message").hide(); 
-                isMessageHidden=true;   
-            } 
-            if (!isMessage2Hidden){
-                $("#message2").hide();
-                isMessage2Hidden=true; 
-            }
             if (difference<5){
                 let startOfBlanks= difference+ 1;
                 while (startOfBlanks <6){
@@ -63,7 +65,10 @@ $(document).ready(function(){
         } else {  
             console.log("There are no results"); 
             $("#message").removeAttr("hidden"); 
-            $("#message").show();  
+            $("#message").show(); 
+            $("#message").find("h3").text(messageSorry.h3);
+            $("#message").find("#p-one").text(messageSorry.p1);
+            $("#message").find("#p-two").text(messageSorry.p2);
             isMessageHidden=false; 
             $(".job").hide(); 
         }
@@ -81,8 +86,7 @@ $(document).ready(function(){
         }).then(function(response){  
             page=1; 
             ongoingJobCount=0; 
-            populateJobPostCards(0, response);
-            // debugger;  
+            populateJobPostCards(0, response); 
             alertInput();     
         }); 
     }
@@ -115,10 +119,14 @@ $(document).ready(function(){
             cityInputArr= cityInput.split(", ");
             console.log(cityInputArr);
             if (cityInputArr.length !==2 || cityInputArr[1].length !== 2){
-                $("#message2").removeAttr("hidden");
-                $("#message2").show();
-                $("#job").hide();
-            }
+                $("#message").find("h3").text(messageError.h3);
+                $("#message").find("#p-one").text(messageError.p1);
+                $("#message").find("#p-two").text(messageError.p2); 
+            } else if (lowercase.indexOf(cityInputArr[1][0]) !== -1 || lowercase.indexOf(cityInputArr[1][1]) !== -1){
+                $("#message").find("h3").text(messageError.h3);
+                $("#message").find("#p-one").text(messageError.p1);
+                $("#message").find("#p-two").text(messageError.p2); 
+            } 
         }
     }
 
