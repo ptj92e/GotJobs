@@ -6,6 +6,7 @@ let ongoingJobCount=0;
 let category=""; 
 let isLastResult= false; 
 let isMessageHidden=true; 
+let savedJobs;
 
 
 $(document).ready(function(){
@@ -21,6 +22,16 @@ $(document).ready(function(){
     let messageNoCategory= {h3: "Input Error!",
                         p1: "You need to select a job type from the dropdown list.",
                         p2: ""};
+
+    function addButtons(){
+        let jobCardEls=$(".job").children(); 
+        for (let i=0; i<jobCardEls.length; i++){
+            let newButton= $("<button>"); 
+            newButton.attr("class", "save btn"); 
+            newButton.text("Save"); 
+            $(jobCardEls[i]).append(newButton); 
+        }
+    }
 
     function clearJobPosts(){
         $(".location").text(""); 
@@ -112,7 +123,6 @@ $(document).ready(function(){
     }  
 
     function backJobs(){ 
-        // debugger; 
         if(ongoingJobCount >5 || page >1){
             ongoingJobCount -= 10;
             if (ongoingJobCount <0 && page>1){
@@ -158,6 +168,93 @@ $(document).ready(function(){
         }
     }
 
+    function getHistory(){
+        savedJobs=JSON.parse(localStorage.getItem("savedJobs")); 
+        if (savedJobs===null){
+            savedJobs=[]; 
+        }
+    }
+
+    function addLocalStorage(newJobObject){
+        savedJobs.push(newJobObject); 
+        localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
+        console.log(savedJobs); 
+    }
+
+    function compareHistoryAndSave(newJobObject){
+        getHistory();  
+        let isUnique=false; 
+        for (let i=0; i<savedJobs.length; i++){
+            if (savedJobs[i].description===newJobObject.description){
+                isUnique=false; 
+                break; 
+            } else {
+                isUnique= true; 
+            }
+        }
+        if (savedJobs.length===0){
+            isUnique=true; 
+        }
+        if (isUnique){
+            addLocalStorage(newJobObject); 
+            console.log("saving job"); 
+        } else {
+            console.log("job already saved"); 
+        }
+        addJobCardtoCarousel(newJobObject); 
+    }; 
+
+   
+
+    function saveJob(jobEl){
+        let newJobObject={};
+        newJobObject.location= jobEl.find(".location").text(); 
+        newJobObject.position=jobEl.find(".position").text(); 
+        newJobObject.description=jobEl.find(".description").text();
+        newJobObject.company=jobEl.find(".company").text(); 
+        newJobObject.qualifications=jobEl.find(".qualifications").text(); 
+        compareHistoryAndSave(newJobObject); 
+    }
+    
+    function addJobCardtoCarousel(currentJob){
+        let htmlTemplate = 
+        `    <div class="mt-2 mb-2 rounded">
+                <div class="card-body savedJob">
+                    <h3>Position: <span class="position">${currentJob.position}</span></h3>
+                    <p>Location: <span class="location">${currentJob.locaton}</span></p>
+                    <p>Company: <span class="company">${currentJob.company}</span></p>
+                    <p>Qualifications: <span class="qualifications">${currentJob.qualifications}</span></p>
+                    <p>Description: <a href="${currentJob.description}" target="_blank" class="description">${currentJob.description}</a></p>
+                </div>
+            </div>`
+        let newItem=$("<div>");
+        newItem.attr("class", "carousel-item");  
+        newItem.html(htmlTemplate); 
+        $(".carousel-inner").append(newItem);
+    }
+
+    function populateCarousel(){
+        getHistory();
+        for (let i=0; i<savedJobs.length; i++){
+            let currentJob=savedJobs[i];
+            addJobCardtoCarousel(currentJob); 
+        }
+    }
+    function initializePage(){
+        getHistory(); 
+        addButtons();  
+        populateCarousel(); 
+    }
+   
+    initializePage(); 
+    
+    $(".save").on("click", function(){
+        event.preventDefault();
+        let jobEl= $(this).parent();  
+        saveJob(jobEl); 
+    })
+       
+
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
         searchJobs();
@@ -173,5 +270,10 @@ $(document).ready(function(){
         event.preventDefault();
         backJobs();
     })
+
+    // $("#carousel-control-prev").on("click", function(){
+    //     event.preventDefault();
+    //     populateCarousel(); 
+    // })
 
 }); 
