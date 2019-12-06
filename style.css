@@ -27,6 +27,17 @@ p {
     background-color: #79387c;
     border-color: #79387c;
     color: white;
+    transition: box-shadow .3s;
+    float: left;
+}
+.btn:hover {
+    box-shadow: 0 0 5px #79387c;
+    color: white;
+    font-size: 17px;
+}
+input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
+    box-shadow: 0 0 5px #79387c;
+    border: 1px solid #79387c;
 }
 .quality {
     background-color: rgba(220, 220, 220, 0.7);
