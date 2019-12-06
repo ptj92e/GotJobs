@@ -5,6 +5,7 @@ let page= 1;
 let ongoingJobCount=0; 
 let category=""; 
 let isLastResult= false; 
+// random change
 
 $(document).ready(function(){
 
