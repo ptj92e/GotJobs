@@ -1,8 +1,10 @@
 let searchLocation="";
 let theMuseApiKey="1f7d0ddf14cfd38dbdeeb9248ab3bff908d85e1bcc104a2a73cf76790d0c82eb";
+let mapquestApiKey="jOoSJlKWI2v4lP46nMd8fKQ8SdfGXJkI"; 
 let page= 1; 
 let ongoingJobCount=0; 
 let category=""; 
+let isLastResult= false; 
 
 $(document).ready(function(){
 
@@ -18,21 +20,23 @@ $(document).ready(function(){
     }
 
     function populateJobPostCards(initial, response){
+        clearJobPosts();
         let results= response.results;
         let jobCount=1;
         $(".job").show(); 
-        if (results.length !== 0){
+        let difference= results.length-ongoingJobCount; 
+        if (difference !== 0 & !isLastResult){
             if (!isMessageHidden) {
                 $("#message").hide(); 
                 isMessageHidden=true;   
-            }
-            console.log(results.length); 
-            if (results.length<5){
-                let numberOfBlanks= 5-results.length;
-                while (numberOfBlanks <6){
-                    $("#job"+numberOfBlanks).parent().hide();
-                    numberOfBlanks++; 
+            } 
+            if (difference<5){
+                let startOfBlanks= difference+ 1;
+                while (startOfBlanks <6){
+                    $("#job"+startOfBlanks).parent().hide();
+                    startOfBlanks++; 
                 }
+                isLastResult=true; 
             }
             for (let i=initial; i<results.length; i++){
                 let jobEl=$("#job"+jobCount); 
@@ -49,8 +53,7 @@ $(document).ready(function(){
                 }
             }
             console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
-        } else { 
-            clearJobPosts(); 
+        } else {  
             console.log("There are no results"); 
             $("#message").removeAttr("hidden"); 
             $("#message").show();  
@@ -60,10 +63,11 @@ $(document).ready(function(){
     }
   
     function searchJobs(){
-        searchLocation= $("#cityInput").val();
-        category= $("#keywordInput").val(); 
+        searchLocation= $("#cityInput").val().trim();
+        category= $("#searchOptions").val(); 
+        console.log(category); 
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page=1&api_key="+theMuseApiKey; 
-
+        isLastResult=false; 
         $.ajax({
             url: theMuseURL,
             method: "GET"
@@ -90,10 +94,16 @@ $(document).ready(function(){
         }); 
 
     }  
+
+    function getMap(){
+        let mapquestUrl="https://open.mapquestapi.com/staticmap/v5/map?key="+mapquestApiKey+"&center="+searchLocation+"&size=600,400@2x"
+        $("#mapImg").attr("src", mapquestUrl); 
+    }
     
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
-        searchJobs(); 
+        searchJobs();
+        getMap();  
     }); 
 
     $("#morebtn").on("click", function(){
