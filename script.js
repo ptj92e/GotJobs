@@ -5,7 +5,8 @@ let page= 1;
 let ongoingJobCount=0; 
 let category=""; 
 let isLastResult= false; 
-// random change
+let isMessageHidden=true; 
+
 
 $(document).ready(function(){
 
@@ -78,7 +79,7 @@ $(document).ready(function(){
   
     function searchJobs(){
         searchLocation= $("#cityInput").val().trim();
-        category= $("#searchOptions").val(); 
+        category= $("#jobOptions").val(); 
         console.log(category); 
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page=1&api_key="+theMuseApiKey; 
         isLastResult=false; 
@@ -149,7 +150,7 @@ $(document).ready(function(){
                 $("#message").find("h3").text(messageError.h3);
                 $("#message").find("#p-one").text(messageError.p1);
                 $("#message").find("#p-two").text(messageError.p2); 
-            } else if ($("#searchOptions").val()==="Please Select an Option"){
+            } else if ($("#jobOptions").val()==="Please Select an Option"){
                 $("#message").find("h3").text(messageNoCategory.h3);
                 $("#message").find("#p-one").text(messageNoCategory.p1);
                 $("#message").find("#p-two").text(messageNoCategory.p2); 
