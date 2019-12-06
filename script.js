@@ -9,7 +9,17 @@ let isLastResult= false;
 
 $(document).ready(function(){
 
-    let isMessageHidden= true; 
+    let messageSorry={h3: "Sorry!",
+                        p1: "Your search resulted in no job postings.",
+                        p2:""};
+
+    let messageError={h3: "Input Error!",
+                        p1: "Make sure you enter the location as the full city name, state abbreviation.",
+                        p2: "For example: Nashville, TN"};
+
+    let messageNoCategory= {h3: "Input Error!",
+                        p1: "You need to select a job type from the dropdown list.",
+                        p2: ""};
 
     function clearJobPosts(){
         $(".location").text(""); 
@@ -22,15 +32,15 @@ $(document).ready(function(){
 
     function populateJobPostCards(initial, response){
         clearJobPosts();
+        if (!isMessageHidden) {
+            $("#message").hide(); 
+            isMessageHidden=true;   
+        } 
         let results= response.results;
         let jobCount=1;
         $(".job").show(); 
         let difference= results.length-ongoingJobCount; 
         if (difference !== 0 & !isLastResult){
-            if (!isMessageHidden) {
-                $("#message").hide(); 
-                isMessageHidden=true;   
-            } 
             if (difference<5){
                 let startOfBlanks= difference+ 1;
                 while (startOfBlanks <6){
@@ -57,7 +67,10 @@ $(document).ready(function(){
         } else {  
             console.log("There are no results"); 
             $("#message").removeAttr("hidden"); 
-            $("#message").show();  
+            $("#message").show(); 
+            $("#message").find("h3").text(messageSorry.h3);
+            $("#message").find("#p-one").text(messageSorry.p1);
+            $("#message").find("#p-two").text(messageSorry.p2);
             isMessageHidden=false; 
             $(".job").hide(); 
         }
@@ -75,7 +88,8 @@ $(document).ready(function(){
         }).then(function(response){  
             page=1; 
             ongoingJobCount=0; 
-            populateJobPostCards(0, response);     
+            populateJobPostCards(0, response); 
+            alertInput();     
         }); 
     }
 
@@ -96,20 +110,67 @@ $(document).ready(function(){
 
     }  
 
+    function backJobs(){ 
+        // debugger; 
+        if(ongoingJobCount >5 || page >1){
+            ongoingJobCount -= 10;
+            if (ongoingJobCount <0 && page>1){
+                    ongoingJobCount = 15; 
+                    page--; 
+            } 
+            console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
+            let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
+
+            $.ajax({
+                url: theMuseURL,
+                method: "GET"
+            }).then(function(response){
+                populateJobPostCards(ongoingJobCount, response); 
+            }); 
+        }
+        
+    }
+
     function getMap(){
         let mapquestUrl="https://open.mapquestapi.com/staticmap/v5/map?key="+mapquestApiKey+"&center="+searchLocation+"&size=600,400@2x"
         $("#mapImg").attr("src", mapquestUrl); 
     }
     
+    function alertInput(){
+        if (!isMessageHidden){
+            let cityInput=$("#cityInput").val().trim(); 
+            cityInputArr= cityInput.split(", ");
+            console.log(cityInputArr);
+            if (cityInputArr.length !==2 || cityInputArr[1].length !== 2){
+                $("#message").find("h3").text(messageError.h3);
+                $("#message").find("#p-one").text(messageError.p1);
+                $("#message").find("#p-two").text(messageError.p2); 
+            } else if (lowercase.indexOf(cityInputArr[1][0]) !== -1 || lowercase.indexOf(cityInputArr[1][1]) !== -1){
+                $("#message").find("h3").text(messageError.h3);
+                $("#message").find("#p-one").text(messageError.p1);
+                $("#message").find("#p-two").text(messageError.p2); 
+            } else if ($("#searchOptions").val()==="Please Select an Option"){
+                $("#message").find("h3").text(messageNoCategory.h3);
+                $("#message").find("#p-one").text(messageNoCategory.p1);
+                $("#message").find("#p-two").text(messageNoCategory.p2); 
+            }  
+        }
+    }
+
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
         searchJobs();
-        getMap();  
+        getMap();   
     }); 
 
     $("#morebtn").on("click", function(){
         event.preventDefault(); 
         moreJobs(); 
     }); 
+
+    $("#backbtn").on("click", function(){
+        event.preventDefault();
+        backJobs();
+    })
 
 }); 
