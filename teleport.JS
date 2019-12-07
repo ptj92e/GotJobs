@@ -55,7 +55,8 @@ $(document).ready(function () {
                     // found on http://fontcdn.org/
                     family: "'Sulphur Point', sans-serif",
                     size: "3rem"
-                  },
+                },
+                hovermode: false,
             };
             // console.log(cityData);
 
