@@ -158,7 +158,7 @@ $(document).ready(function(){
                 $("#message").find("h3").text(messageError.h3);
                 $("#message").find("#p-one").text(messageError.p1);
                 $("#message").find("#p-two").text(messageError.p2); 
-            } else if ($("#jobOptions").val()==="Please Select an Option"){
+            } else if ($("#jobOptions").val()==="Job Type"){
                 $("#message").find("h3").text(messageNoCategory.h3);
                 $("#message").find("#p-one").text(messageNoCategory.p1);
                 $("#message").find("#p-two").text(messageNoCategory.p2); 
@@ -199,11 +199,10 @@ $(document).ready(function(){
         } else {
             console.log("job already saved"); 
         }
-        addJobCardtoCarousel(newJobObject); 
+        addJobCardtoModal(newJobObject); 
     }
 
-    function saveJob(jobEl){
-        debugger; 
+    function saveJob(jobEl){ 
         console.log(jobEl); 
         let x=jobEl.find(".location").text(); 
         if (x !==""){
@@ -217,29 +216,27 @@ $(document).ready(function(){
         }
     }
     
-    function addJobCardtoCarousel(currentJob){
+    function addJobCardtoModal(currentJob){
         let htmlTemplate = 
-        `    <div class="mt-2 mb-2 rounded">
-                <div class="card-body savedJob">
+                `<div class="card-body savedJobCard">
                     <h3>Position: <span class="position">${currentJob.position}</span></h3>
                     <p>Location: <span class="location">${currentJob.location}</span></p>
                     <p>Company: <span class="company">${currentJob.company}</span></p>
                     <p>Qualifications: <span class="qualifications">${currentJob.qualifications}</span></p>
                     <p>Description: <a href="${currentJob.description}" target="_blank" class="description">${currentJob.description}</a></p>
                     <div class="buttonbox d-flex justify-content-center"></div>
-                </div>
-            </div>`
+                </div>`
         let newItem=$("<div>");
-        newItem.attr("class", "carousel-item");   
+        newItem.attr("class", "mt-2 mb-2 savedJob rounded");   
         newItem.html(htmlTemplate); 
-        $(".carousel-inner").append(newItem);
+        $(".modal-body").append(newItem);
 
         let deletebtn = $("<button>");
         deletebtn.addClass("delete btn");
         deletebtn.text("Delete");
         deletebtn.on("click", function(){
-            event.stopPropagation(); 
-            let currentJob= $(this).parent(); 
+            // event.stopPropagation(); 
+            let currentJob= $(this).parentsUntil(".modal-body"); 
             deleteSavedJob(currentJob); 
         });
         newItem.find(".buttonbox").append(deletebtn); 
@@ -248,42 +245,31 @@ $(document).ready(function(){
 
     function deleteSavedJob(currentJob){ 
         getHistory(); 
-        let entireJobEl= $(currentJob).parentsUntil(".stop"); 
-        let currentDescription=$(entireJobEl).find(".description").text();
+        let currentDescription=$(currentJob).find(".description").text();
         for (let i=0; i<savedJobs.length; i++){
             if(savedJobs[i].description=== currentDescription){
                 savedJobs.splice(i,1); 
             }
         }
-        localStorage.setItem("savedJobs", JSON.stringify(savedJobs));
-        console.log(entireJobEl); 
+        localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
         console.log(currentJob); 
-        console.log("next is ",$(entireJobEl).next().attr("class"));
-        $(entireJobEl).addClass("deleted"); 
-        if ($(entireJobEl).next().attr("class") !== undefined){
-            $(entireJobEl).next().addClass("active"); 
-            $(entireJobEl).next().show(); 
-        } else {
-            $(entireJobEl).prev().addClass("active"); 
-            $(entireJobEl).prev().show(); 
-        }
-        $(".deleted").remove();
+        $(currentJob).remove();
         console.log("job deleted"); 
 
     }
 
-    function populateCarousel(){ 
+    function populateModal(){ 
         getHistory();
         for (let i=0; i<savedJobs.length; i++){
             let currentJob=savedJobs[i];
-            addJobCardtoCarousel(currentJob);
+            addJobCardtoModal(currentJob);
         }
     }
 
     function initializePage(){
         getHistory(); 
         addButtons();  
-        populateCarousel(); 
+        populateModal(); 
     }
    
     initializePage(); 
