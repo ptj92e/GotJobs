@@ -100,7 +100,9 @@ $(document).ready(function(){
             page=1; 
             ongoingJobCount=0; 
             populateJobPostCards(0, response); 
-            alertInput();     
+            alertInput(); 
+            deleteStar();   
+            addStar();     
         }); 
     }
 
@@ -116,6 +118,8 @@ $(document).ready(function(){
             method: "GET"
         }).then(function(response){
             populateJobPostCards(ongoingJobCount, response); 
+            deleteStar();   
+            addStar(); 
         }); 
 
     }  
@@ -135,6 +139,8 @@ $(document).ready(function(){
                 method: "GET"
             }).then(function(response){
                 populateJobPostCards(ongoingJobCount, response); 
+                deleteStar();   
+                addStar(); 
             }); 
         }
         
@@ -266,6 +272,42 @@ $(document).ready(function(){
         }
     }
 
+    function clearSavedJobs(){
+        debugger; 
+        savedJobs=[]; 
+        localStorage.clear(); 
+        $(".savedJob").remove();
+    }
+
+    function addStar(jobEl){
+        debugger; 
+        if (jobEl === undefined){
+            getHistory(); 
+            let allDisplayedJobs=$(".job"); 
+            console.log(allDisplayedJobs); 
+            for (let i=0; i<savedJobs.length; i++){
+                for (let j=0; j<allDisplayedJobs.length; j++){
+                    let saved= savedJobs[i].description;
+                    let current= $(allDisplayedJobs[j]).find(".description").text();
+                    if (savedJobs[i].description=== $(allDisplayedJobs[j]).find(".description").text()){
+                        let fav= $(allDisplayedJobs[j]).find(".far"); 
+                        console.log(fav); 
+                        fav.removeAttr("hidden");
+                        fav.show(); 
+                    }
+                }
+            } 
+        } else {
+            let fav= jobEl.find(".far"); 
+            fav.removeAttr("hidden");
+            fav.show(); 
+        } 
+    }
+
+    function deleteStar(){
+        $(".far").hide(); 
+    }
+
     function initializePage(){
         getHistory(); 
         addButtons();  
@@ -278,22 +320,28 @@ $(document).ready(function(){
    
     initializePage(); 
     
+    $("#deleteHistory").on("click", function(){
+        clearSavedJobs(); 
+    }); 
+
     $(".save").on("click", function(){
+        debugger; 
         event.preventDefault();
         let jobEl= $(this).parentsUntil(".job");  
         saveJob(jobEl); 
-    })
+        addStar(jobEl); 
+    });
 
     $("#searchbtn").on("click", function(){
         event.preventDefault(); 
         searchJobs();
-        getMap();   
+        getMap(); 
     }); 
 
     $("#morebtn").on("click", function(){
         event.preventDefault(); 
         moreJobs();
-        topFunction();  
+        topFunction(); 
     }); 
 
     $("#backbtn").on("click", function(){
@@ -301,4 +349,9 @@ $(document).ready(function(){
         backJobs();
         topFunction(); 
     })
+
+    $("#closeHistory").on("click", function(){ 
+        deleteStar(); 
+        addStar(); 
+    }); 
 }); 
