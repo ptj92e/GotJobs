@@ -34,23 +34,28 @@ $(document).ready(function () {
             // console.log(cityData);
 
             let data = [{
-                x: cityData,
-                y: cityDataName,
+                y: cityData,
+                x: cityDataName,
                 type: "bar",
                 text: cityData.map(String),
                 textposition: 'auto',
-                orientation: "h",
+                // orientation: "h",
             }];
 
             let layout = {
                 title: 'Quality of Life Scores in ' + chartTitle,
-                yaxis: {
-                    // tickangle: -45,
+                xaxis: {
+                    tickangle: -45,
                     automargin: true,
                 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 width: 540,
+                font: {
+                    // found on http://fontcdn.org/
+                    family: "'Sulphur Point', sans-serif",
+                    size: "3rem"
+                  },
             };
             // console.log(cityData);
 
