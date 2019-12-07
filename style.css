@@ -27,7 +27,7 @@ p {
     font-family: 'Source Sans Pro', sans-serif;
 }
 .card-body {
-    background-color: rgba(220, 220, 220, 0.7);
+    background-color: rgba(220, 220, 220, 0.8);
 }
 .btn {
     background-color: #79387c;
@@ -40,10 +40,19 @@ p {
     background-color: white;
     color: #79387c;
 }
+#modalButton:hover {
+    box-shadow: 0 0 5px white;
+    color: white;
+    background-color: #79387c;
+}
+#modalButton:focus {
+    box-shadow: 0 0 5px #79387c;
+    border: 1px solid #79387c;
+}
 .btn:hover {
     box-shadow: 0 0 5px #79387c;
-    color: white;
-    font-size: 17px;
+    color: #79387c;
+    background-color: white;
 }
 input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     box-shadow: 0 0 5px #79387c;
@@ -54,7 +63,7 @@ input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     border-color: rgb(220, 220, 220);
 }
 .map {
-    background-color: rgba(220, 220, 220, 0.7);
+    background-color: rgba(220, 220, 220, 0.8);
     border-color: rgb(220, 220, 220);
 }
 #morebtn {
