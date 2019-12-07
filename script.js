@@ -196,10 +196,10 @@ $(document).ready(function(){
         if (isUnique){
             addLocalStorage(newJobObject); 
             console.log("saving job"); 
+            addJobCardtoModal(newJobObject); 
         } else {
             console.log("job already saved"); 
         }
-        addJobCardtoModal(newJobObject); 
     }
 
     function saveJob(jobEl){ 
@@ -271,6 +271,10 @@ $(document).ready(function(){
         addButtons();  
         populateModal(); 
     }
+
+    function topFunction() {
+        $('html,body').animate({ scrollTop: 0 }, 400);
+    }
    
     initializePage(); 
     
@@ -288,11 +292,13 @@ $(document).ready(function(){
 
     $("#morebtn").on("click", function(){
         event.preventDefault(); 
-        moreJobs(); 
+        moreJobs();
+        topFunction();  
     }); 
 
     $("#backbtn").on("click", function(){
         event.preventDefault();
         backJobs();
+        topFunction(); 
     })
 }); 
