@@ -28,18 +28,19 @@
 
 <body id="backgroundImage">
     <header>
-        <h1 class="text-center">Got Jobs?</h1>
-        <button type="button" id="modalButton" class="btn btn-primary" data-toggle="modal"
-            data-target="#exampleModalScrollable">
+        <button type="button" id="modalButton" class="btn float-right" data-toggle="modal" data-target="#exampleModalScrollable">
             Saved Jobs
         </button>
+        <div class="container">
+            <h1 class="text-center">Got Jobs? </h1>
+        </div>
     </header>
     <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Saved Jobs</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -54,13 +55,13 @@
         </div>
     </div>
     <div class="container pt-2">
-        <form class="form-inline justify-content-center">
-            <div class="form-group mx-sm-3 mb-2">
+        <form class="form-inline justify-content-center flex-row">
+            <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
                 <label for="inputPassword2" class="sr-only">City</label>
-                <input type="text" class="form-control" id="cityInput" placeholder="City, State">
+                <input type="text" class="form-control mb-2 col-12" id="cityInput" placeholder="City, State">
             </div>
-            <div class="form-group">
-                <select class="form-control mx-sm-3 mb-2 text-secondary" id="jobOptions">
+            <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
+                <select class="form-control mb-2 text-secondary col-12" id="jobOptions">
                     <option>Job Type</option>
                     <option>Account Management</option>
                     <option>Business & Strategy</option>
@@ -83,19 +84,7 @@
                     <option>Social Media & Community</option>
                 </select>
             </div>
-            <div class="form-group">
-                <select class="form-control mx-sm-3 mb-2 text-secondary" id="experienceOptions">
-                    <option>Experience Level</option>
-                    <option>Internship</option>
-                    <option>Entry Level</option>
-                    <option>Mid Level</option>
-                    <option>Senior Level</option>
-                    <option>Junior</option>
-                    <option>Senior</option>
-                    <option>Management</option>
-                </select>
-            </div>
-            <button id="searchbtn" type="submit" class="btn mb-2">Search</button>
+            <button id="searchbtn" type="submit" class="btn mb-2 mx-auto flex-item col-sm-12 col-md-2">Search</button>
         </form>
     </div>
     <div class="container">
