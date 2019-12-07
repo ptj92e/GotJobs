@@ -54,6 +54,10 @@ p {
     color: #79387c;
     background-color: white;
 }
+.btn:focus {
+    box-shadow: 0 0 5px #79387c;
+    border: 1px solid #79387c;
+}
 input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     box-shadow: 0 0 5px #79387c;
     border: 1px solid #79387c;
@@ -65,6 +69,7 @@ input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
 .map {
     background-color: rgba(220, 220, 220, 0.8);
     border-color: rgb(220, 220, 220);
+    margin-bottom: 80px;
 }
 #morebtn {
     margin-bottom: 80px;
@@ -73,10 +78,6 @@ input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     margin-bottom: 80px;
 }
 #mapHeader {
-    font-family: 'Sulphur Point', sans-serif;
-    color: black;
-}
-#carouselHeading {
     font-family: 'Sulphur Point', sans-serif;
     color: black;
 }
