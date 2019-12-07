@@ -54,6 +54,10 @@ p {
     color: #79387c;
     background-color: white;
 }
+.btn:focus {
+    box-shadow: 0 0 5px #79387c;
+    border: 1px solid #79387c;
+}
 input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     box-shadow: 0 0 5px #79387c;
     border: 1px solid #79387c;
