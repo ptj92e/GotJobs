@@ -28,7 +28,8 @@
 
 <body id="backgroundImage">
     <header>
-        <button type="button" id="modalButton" class="btn float-right" data-toggle="modal" data-target="#exampleModalScrollable">
+        <button type="button" id="modalButton" class="btn float-right" data-toggle="modal"
+            data-target="#exampleModalScrollable">
             Saved Jobs
         </button>
         <div class="container">
@@ -48,121 +49,125 @@
                 <div class="modal-body">
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn" id="deleteHistory">Clear Searches</button>
                     <button type="button" class="btn" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container pt-2">
-        <form class="form-inline justify-content-center flex-row">
-            <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
-                <label for="inputPassword2" class="sr-only">City</label>
-                <input type="text" class="form-control mb-2 col-12" id="cityInput" placeholder="City, State">
-            </div>
-            <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
-                <select class="form-control mb-2 text-secondary col-12" id="jobOptions">
-                    <option>Job Type</option>
-                    <option>Account Management</option>
-                    <option>Business & Strategy</option>
-                    <option>Creative & Design</option>
-                    <option>Customer Service</option>
-                    <option>Data Science</option>
-                    <option>Editorial</option>
-                    <option>Education</option>
-                    <option>Engineering</option>
-                    <option>Finance</option>
-                    <optoin>Fundraising & Development</optoin>
-                    <option>Healthcare & Medicine</option>
-                    <option>HR & Recruiting</option>
-                    <option>Legal</option>\
-                    <option>Marketing & PR</option>
-                    <option>Operations</option>
-                    <option>Project & Product Management</option>
-                    <option>Retail</option>
-                    <option>Sales</option>
-                    <option>Social Media & Community</option>
-                </select>
-            </div>
-            <button id="searchbtn" type="submit" class="btn mb-2 mx-auto flex-item col-sm-12 col-md-2">Search</button>
-        </form>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="mt-2 mb-2 animated rubberBand" id="message" hidden>
-                    <div class="card-body">
-                        <h3></h3>
-                        <p id="p-one"></p>
-                        <p id="p-two"></p>
-                    </div>
+    <div class="container jobBody">
+        <div class="container pt-2">
+            <form class="form-inline justify-content-center flex-row">
+                <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
+                    <label for="inputPassword2" class="sr-only">City</label>
+                    <input type="text" class="form-control mb-2 col-12" id="cityInput" placeholder="City, State">
                 </div>
-                <div class="mt-2 mb-2 job animated rubberBand rounded">
-                    <div class="card-body" id="job1">
-                        <h3>Position: <span class="position"></span></h3>
-                        <p>Location: <span class="location"></span></p>
-                        <p>Company: <span class="company"></span></p>
-                        <p>Qualifications: <span class="qualifications"></span></p>
-                        <p>Description: <a href="" target="_blank" class="description"></a></p>
-                        <!-- <button class="save btn">Save</button> -->
-                    </div>
+                <div class="form-group mx-auto flex-item col-sm-12 col-md-4 col-lg-3">
+                    <select class="form-control mb-2 text-secondary col-12" id="jobOptions">
+                        <option>Job Type</option>
+                        <option>Account Management</option>
+                        <option>Business & Strategy</option>
+                        <option>Creative & Design</option>
+                        <option>Customer Service</option>
+                        <option>Data Science</option>
+                        <option>Editorial</option>
+                        <option>Education</option>
+                        <option>Engineering</option>
+                        <option>Finance</option>
+                        <optoin>Fundraising & Development</optoin>
+                        <option>Healthcare & Medicine</option>
+                        <option>HR & Recruiting</option>
+                        <option>Legal</option>\
+                        <option>Marketing & PR</option>
+                        <option>Operations</option>
+                        <option>Project & Product Management</option>
+                        <option>Retail</option>
+                        <option>Sales</option>
+                        <option>Social Media & Community</option>
+                    </select>
                 </div>
-                <div class="mt-2 mb-2 job animated rubberBand rounded">
-                    <div class="card-body" id="job2">
-                        <h3>Position: <span class="position"></span></h3>
-                        <p>Location: <span class="location"></span></p>
-                        <p>Company: <span class="company"></span></p>
-                        <p>Qualifications: <span class="qualifications"></span></p>
-                        <p>Description: <a href="" target="_blank" class="description"></a></p>
+                <button id="searchbtn" type="submit"
+                    class="btn mb-2 mx-auto flex-item col-sm-12 col-md-2">Search</button>
+            </form>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <div class="mt-2 mb-2 animated rubberBand" id="message" hidden>
+                        <div class="card-body">
+                            <h3></h3>
+                            <p id="p-one"></p>
+                            <p id="p-two"></p>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-2 mb-2 job animated rubberBand rounded">
-                    <div class="card-body" id="job3">
-                        <h3>Position: <span class="position"></span></h3>
-                        <p>Location: <span class="location"></span></p>
-                        <p>Company: <span class="company"></span></p>
-                        <p>Qualifications: <span class="qualifications"></span></p>
-                        <p>Description: <a href="" target="_blank" class="description"></a></p>
+                    <div class="mt-2 mb-2 job animated rubberBand rounded">
+                        <div class="card-body" id="job1">
+                            <h3>Position: <span class="position"></span></h3>
+                            <p>Location: <span class="location"></span></p>
+                            <p>Company: <span class="company"></span></p>
+                            <p>Qualifications: <span class="qualifications"></span></p>
+                            <p>Description: <a href="" target="_blank" class="description"></a></p>
+                            <!-- <button class="save btn">Save</button> -->
+                        </div>
                     </div>
-                </div>
-                <div class="mt-2 mb-2 job animated rubberBand rounded">
-                    <div class="card-body" id="job4">
-                        <h3>Position: <span class="position"></span></h3>
-                        <p>Location: <span class="location"></span></p>
-                        <p>Company: <span class="company"></span></p>
-                        <p>Qualifications: <span class="qualifications"></span></p>
-                        <p>Description: <a href="" target="_blank" class="description"></a></p>
+                    <div class="mt-2 mb-2 job animated rubberBand rounded">
+                        <div class="card-body" id="job2">
+                            <h3>Position: <span class="position"></span></h3>
+                            <p>Location: <span class="location"></span></p>
+                            <p>Company: <span class="company"></span></p>
+                            <p>Qualifications: <span class="qualifications"></span></p>
+                            <p>Description: <a href="" target="_blank" class="description"></a></p>
+                        </div>
                     </div>
-                </div>
-                <div class="mt-2 mb-2 job animated rubberBand rounded">
-                    <div class="card-body" id="job5">
-                        <h3>Position: <span class="position"></span></h3>
-                        <p>Location: <span class="location"></span></p>
-                        <p>Company: <span class="company"></span></p>
-                        <p>Qualifications: <span class="qualifications"></span></p>
-                        <p>Description: <a href="" target="_blank" class="description"></a></p>
+                    <div class="mt-2 mb-2 job animated rubberBand rounded">
+                        <div class="card-body" id="job3">
+                            <h3>Position: <span class="position"></span></h3>
+                            <p>Location: <span class="location"></span></p>
+                            <p>Company: <span class="company"></span></p>
+                            <p>Qualifications: <span class="qualifications"></span></p>
+                            <p>Description: <a href="" target="_blank" class="description"></a></p>
+                        </div>
                     </div>
+                    <div class="mt-2 mb-2 job animated rubberBand rounded">
+                        <div class="card-body" id="job4">
+                            <h3>Position: <span class="position"></span></h3>
+                            <p>Location: <span class="location"></span></p>
+                            <p>Company: <span class="company"></span></p>
+                            <p>Qualifications: <span class="qualifications"></span></p>
+                            <p>Description: <a href="" target="_blank" class="description"></a></p>
+                        </div>
+                    </div>
+                    <div class="mt-2 mb-2 job animated rubberBand rounded">
+                        <div class="card-body" id="job5">
+                            <h3>Position: <span class="position"></span></h3>
+                            <p>Location: <span class="location"></span></p>
+                            <p>Company: <span class="company"></span></p>
+                            <p>Qualifications: <span class="qualifications"></span></p>
+                            <p>Description: <a href="" target="_blank" class="description"></a></p>
+                        </div>
+                    </div>
+                    <button id="backbtn" type="submit" class="btn mr-2">Back</button>
+                    <button id="morebtn" type="submit" class="btn">Next</button>
                 </div>
-                <button id="backbtn" type="submit" class="btn mr-2">Back</button>
-                <button id="morebtn" type="submit" class="btn">Next</button>
-            </div>
-            <div class="col-sm">
-                <div class="quality mt-2 col-12 animated slideInUp rounded text-center" id="cityChart">
+                <div class="col-sm">
+                    <div class="quality mt-2 col-12 animated slideInUp rounded text-center" id="cityChart">
 
-                </div>
-                <div class="map col-12 animated slideInUp rounded mt-2 p-3">
-                    <h1 id="mapHeader">Map</h1>
-                    <img id="mapImg" class="img-fluid" src="">
+                    </div>
+                    <div class="map col-12 animated slideInUp rounded mt-2 p-3">
+                        <h1 id="mapHeader">Map</h1>
+                        <img id="mapImg" class="img-fluid" src="">
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer>
-        <p class="text-center">Got Jobs? inc, ©</p>
-    </footer>
+        <footer>
+            <p class="text-center">Got Jobs? inc, ©</p>
+        </footer>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script type="text/JavaScript" src="teleport.JS"></script>
-    <script src="script.js" type="text/javascript"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script type="text/JavaScript" src="teleport.JS"></script>
+        <script src="script.js" type="text/javascript"></script>
 </body>
 
 </html>

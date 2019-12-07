@@ -7,6 +7,13 @@ body {
 header {
     background-color: #79387c;
     padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+}
+.jobBody {
+    margin-top: 80px;
 }
 footer {
     background-color: #79387c;
