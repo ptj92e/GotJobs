@@ -36,6 +36,10 @@ p {
     transition: box-shadow .3s;
     float: left;
 }
+#modalButton {
+    background-color: white;
+    color: #79387c;
+}
 .btn:hover {
     box-shadow: 0 0 5px #79387c;
     color: white;
