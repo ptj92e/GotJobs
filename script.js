@@ -6,8 +6,7 @@ let ongoingJobCount=0;
 let category=""; 
 let isLastResult= false; 
 let isMessageHidden=true; 
-let savedJobs;
-let level=""; 
+let savedJobs; 
 let lowercase="abcdefghijklmnopqrstuvwxyz";
 
 $(document).ready(function(){
@@ -83,33 +82,16 @@ $(document).ready(function(){
     }
   
     function formatInput(input){
-        if (input === level){
-            input=input.replace(/ /g, "-");
-        } else {
-            input=input.replace(/ /g, "%20");
-        }
+        input=input.replace(/ /g, "%20");
         input= input.replace(/,/g, "%2C");
         input= input.replace(/&/g, "%26");
         return input; 
     }
 
     function searchJobs(){
-        searchLocation= $("#cityInput").val().trim();
-        searchLocation= formatInput(searchLocation); 
-        console.log(searchLocation);
-        category = $("#jobOptions").val().replace(/ /g, "%20"); 
-        category= formatInput(category); 
-        console.log(category); 
-        level= $("#experienceOptions").val();
-        level= formatInput(level); 
-        console.log(level); 
+        searchLocation= formatInput($("#cityInput").val().trim()); 
+        category= formatInput($("#jobOptions").val()); 
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page=1&api_key="+theMuseApiKey; 
-        console.log("The value of experience Options is", $("#experienceOptions").val());
-        if ($("#experienceOptions").val() !== "Experience Level"){
-            theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&level="+level+"&page=1&api_key="+theMuseApiKey; 
-            console.log("added level into search url"); 
-        }
-        console.log(theMuseURL); 
         isLastResult=false; 
         $.ajax({
             url: theMuseURL,
@@ -129,11 +111,6 @@ $(document).ready(function(){
         }
         console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
-        if ($("#experienceOptions").val() !== "Experience Level"){
-            theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&level="+level+"&page=1&api_key="+theMuseApiKey; 
-            console.log("added level into search url"); 
-        }
-
         $.ajax({
             url: theMuseURL,
             method: "GET"
@@ -294,6 +271,7 @@ $(document).ready(function(){
         console.log("job deleted"); 
 
     }
+
     function populateCarousel(){ 
         getHistory();
         for (let i=0; i<savedJobs.length; i++){
@@ -301,6 +279,7 @@ $(document).ready(function(){
             addJobCardtoCarousel(currentJob);
         }
     }
+
     function initializePage(){
         getHistory(); 
         addButtons();  
@@ -330,6 +309,4 @@ $(document).ready(function(){
         event.preventDefault();
         backJobs();
     })
-
-
 }); 
