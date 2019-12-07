@@ -1,3 +1,9 @@
+body {
+    background-image: url("assets/images/business-2089534_1920.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+
+}
 header {
     background-color: #79387c;
     padding: 10px;
@@ -46,7 +52,6 @@ input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
 .map {
     background-color: rgba(220, 220, 220, 0.7);
     border-color: rgb(220, 220, 220);
-    margin-bottom: 80px;
 }
 #morebtn {
     margin-bottom: 80px;
@@ -55,6 +60,10 @@ input[type=text]:focus, #jobOptions:focus, #experienceOptions:focus {
     margin-bottom: 80px;
 }
 #mapHeader {
+    font-family: 'Sulphur Point', sans-serif;
+    color: black;
+}
+#carouselHeading {
     font-family: 'Sulphur Point', sans-serif;
     color: black;
 }
