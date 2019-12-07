@@ -48,6 +48,7 @@ $(document).ready(function () {
                 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
+                width: 540,
             };
 
             Plotly.newPlot("cityChart", data, layout);
