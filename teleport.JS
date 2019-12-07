@@ -11,7 +11,8 @@ $(document).ready(function () {
 
         let city = $("#cityInput").val().toLowerCase().split(", ", 1);
         let city2 = city.toString();
-        let city3 = city2.replace(" ", "-");
+        console.log(city2);
+        let city3 = city2.replace(/ /g, "-");
         let teleport = "https://api.teleport.org/api/urban_areas/slug:" + city3 + "/scores/";
         let chartTitle = $("#cityInput").val();
         console.log(city3);
