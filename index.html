@@ -29,16 +29,39 @@
 <body id="backgroundImage">
     <header>
         <h1 class="text-center">Got Jobs?</h1>
+        <button type="button" id="modalButton" class="btn btn-primary" data-toggle="modal"
+            data-target="#exampleModalScrollable">
+            Saved Jobs
+        </button>
     </header>
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container pt-2">
-        <form class="form-inline">
+        <form class="form-inline justify-content-center">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="inputPassword2" class="sr-only">City</label>
                 <input type="text" class="form-control" id="cityInput" placeholder="City, State">
             </div>
             <div class="form-group">
                 <select class="form-control mx-sm-3 mb-2 text-secondary" id="jobOptions">
-                    <option>Please Select an Option</option>
+                    <option>Job Type</option>
                     <option>Account Management</option>
                     <option>Business & Strategy</option>
                     <option>Creative & Design</option>
@@ -60,13 +83,9 @@
                     <option>Social Media & Community</option>
                 </select>
             </div>
-            <div class="form-group mx-sm-3 mb-2">
-                <label for="inputPassword2" class="sr-only">Company</label>
-                <input type="text" class="form-control" id="companyInput" placeholder="Company Name">
-            </div>
             <div class="form-group">
                 <select class="form-control mx-sm-3 mb-2 text-secondary" id="experienceOptions">
-                    <option>Please Select an Option</option>
+                    <option>Experience Level</option>
                     <option>Internship</option>
                     <option>Entry Level</option>
                     <option>Mid Level</option>
@@ -145,26 +164,6 @@
                 <div class="map col-12 animated slideInUp rounded mt-2 p-3">
                     <h1 id="mapHeader">Map</h1>
                     <img id="mapImg" class="img-fluid" src="">
-                </div>
-                <!--Just added this here to help me view the code. Not sure where we want to put it-->
-                <div id="carouselSavedJobs" class="carousel slide animated slideInUp" data-ride="carousel">
-                    <div class="carousel-inner stop">
-                        <div class="carousel-item active">
-                            <div class="mt-2 mb-2 rounded">
-                                <div class="card-body savedJob">
-                                    <h1 id="carouselHeading">View Your Favorite Jobs</h1>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselSavedJobs" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselSavedJobs" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
