@@ -7,6 +7,7 @@ $(document).ready(function () {
 
     $(".btn").click(function () {
         cityData = [];
+        $("#cityChart").empty();
         // console.log($("#cityInput").val());
 
         let city = $("#cityInput").val().toLowerCase().split(", ", 1);
