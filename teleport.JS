@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     // debugger;
 
-    $(".btn").click(function () {
+    $("#searchbtn").click(function () {
         cityData = [];
         $("#cityChart").empty();
         // console.log($("#cityInput").val());
@@ -53,11 +53,11 @@ $(document).ready(function () {
                 width: 540,
             };
             // console.log(cityData);
-            
-                Plotly.newPlot("cityChart", data, layout);
-        }).fail(function(){
+
+            Plotly.newPlot("cityChart", data, layout);
+        }).fail(function () {
             // console.log("Broken");
-            
+
             $("#cityChart").text($("#cityInput").val() + " isn't currently in our Database.");
             $("#cityChart").css("font-family", "Sulphur Point");
             $("#cityChart").css("font-size", "2.5rem");
