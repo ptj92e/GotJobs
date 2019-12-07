@@ -15,7 +15,7 @@ $(document).ready(function () {
         let city3 = city2.replace(/ /g, "-");
         let teleport = "https://api.teleport.org/api/urban_areas/slug:" + city3 + "/scores/";
         let chartTitle = $("#cityInput").val();
-        console.log(city3);
+        console.log(cityData);
 
         $.ajax({
             url: teleport,
@@ -42,7 +42,7 @@ $(document).ready(function () {
             }];
 
             let layout = {
-                title:'Quality of Life Scores in ' + chartTitle,
+                title: 'Quality of Life Scores in ' + chartTitle,
                 yaxis: {
                     // tickangle: -45,
                     automargin: true,
@@ -51,8 +51,15 @@ $(document).ready(function () {
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 width: 540,
             };
-
-            Plotly.newPlot("cityChart", data, layout);
+            // console.log(cityData);
+            
+                Plotly.newPlot("cityChart", data, layout);
+        }).fail(function(){
+            // console.log("Broken");
+            
+            $("#cityChart").text($("#cityInput").val() + " isn't currently in our Database.");
+            $("#cityChart").css("font-family", "Sulphur Point");
+            $("#cityChart").css("font-size", "2.5rem");
         });
 
         let teleportImg = "https://api.teleport.org/api/urban_areas/slug:" + city3 + "/images/";
@@ -60,7 +67,7 @@ $(document).ready(function () {
             url: teleportImg,
             method: "GET"
         }).then(function (imgresponse) {
-            console.log(imgresponse);
+            // console.log(imgresponse);
             $("#backgroundImage").attr("style", "background-image: url(" + imgresponse.photos[0].image.mobile + "); background-repeat: no-repeat; background-size: cover;");
         })
 
