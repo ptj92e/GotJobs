@@ -11,6 +11,7 @@ let lowercase="abcdefghijklmnopqrstuvwxyz";
 let isAfterFirstCall=false; 
 let isFirstCall= false; 
 let jobCount=1; 
+let isAfterNoResults=false; 
 
 $(document).ready(function(){
 
@@ -83,6 +84,7 @@ $(document).ready(function(){
             $("#message").find("#p-one").text(messageSorry.p1);
             $("#message").find("#p-two").text(messageSorry.p2);
             isMessageHidden=false; 
+            isAfterNoResults=true; 
             $(".job").hide(); 
         }
     }
@@ -103,7 +105,7 @@ $(document).ready(function(){
         isLastResult=false;
         isFirstCall=true; 
         isAfterFirstCall=false;  
-        isBackwards=false; 
+        isAfterNoResults=false;  
         $.ajax({
             url: theMuseURL,
             method: "GET"
@@ -119,11 +121,11 @@ $(document).ready(function(){
 
     //api call when searching for additional jobs
     function moreJobs(){  
+        debugger; 
         if (isFirstCall){
             isAfterFirstCall=true; 
         }
         isFirstCall=false; 
-        isBackwards=false;  
         if (ongoingJobCount === 20){
             page++;
             ongoingJobCount=0; 
@@ -138,20 +140,25 @@ $(document).ready(function(){
             deleteStar();   
             addStar(); 
         }); 
-
+        isAfterNoResults=false; 
     }  
 
     // api call when going back to the pervious job postings
     function backJobs(){ 
+        debugger; 
         if (isFirstCall){
             isAfterFirstCall=true; 
         }
         isFirstCall=false;
-        isLastResult=false;  
+        isLastResult=false;
         if(isAfterFirstCall){
-            ongoingJobCount -= (4+jobCount);
+            if (isAfterNoResults){
+                ongoingJobCount -=jobCount
+            } else {
+                ongoingJobCount -= (4+jobCount);
+            }
             if (ongoingJobCount <=0 && page>1){
-                if (ongoingJobCount === -5){
+                if (ongoingJobCount === -5 || isAfterNoResults){
                     ongoingJobCount = 15; 
                     page--; 
                 } else {
@@ -173,7 +180,7 @@ $(document).ready(function(){
                 addStar(); 
             }); 
         }
-        
+        isAfterNoResults=false; 
     }
 
     // api call for map 
