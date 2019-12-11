@@ -8,9 +8,13 @@ let isLastResult= false;
 let isMessageHidden=true; 
 let savedJobs; 
 let lowercase="abcdefghijklmnopqrstuvwxyz";
+let isAfterFirstCall=false; 
+let isFirstCall= false; 
+let jobCount=1; 
 
 $(document).ready(function(){
 
+    // user messages
     let messageSorry={h3: "Sorry!",
                         p1: "Your search resulted in no job postings.",
                         p2:""};
@@ -23,6 +27,7 @@ $(document).ready(function(){
                         p1: "You need to select a job type from the dropdown list.",
                         p2: ""};
 
+    // adds save buttons to the jobcards. Used to initialize the page
     function addButtons(){
         let jobCardEls=$(".job").children(); 
         for (let i=0; i<jobCardEls.length; i++){
@@ -36,16 +41,17 @@ $(document).ready(function(){
         }
     }
 
+    //how to use api results to make job postings on the job cards including not showing unfilled job cards
     function populateJobPostCards(initial, response){
         if (!isMessageHidden) {
             $("#message").hide(); 
             isMessageHidden=true;   
         } 
         let results= response.results;
-        let jobCount=1;
+        jobCount=1;
         $(".job").show(); 
         let difference= results.length-ongoingJobCount; 
-        if (difference !== 0 & !isLastResult){
+        if (difference !== 0 && !isLastResult){
             if (difference<5){
                 let startOfBlanks= difference+ 1;
                 while (startOfBlanks <6){
@@ -81,6 +87,7 @@ $(document).ready(function(){
         }
     }
   
+    // formating user input for theMUSE api call
     function formatInput(input){
         input=input.replace(/ /g, "%20");
         input= input.replace(/,/g, "%2C");
@@ -88,11 +95,15 @@ $(document).ready(function(){
         return input; 
     }
 
+    // api call when first searching the input
     function searchJobs(){
         searchLocation= formatInput($("#cityInput").val().trim()); 
         category= formatInput($("#jobOptions").val()); 
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page=1&api_key="+theMuseApiKey; 
-        isLastResult=false; 
+        isLastResult=false;
+        isFirstCall=true; 
+        isAfterFirstCall=false;  
+        isBackwards=false; 
         $.ajax({
             url: theMuseURL,
             method: "GET"
@@ -106,7 +117,13 @@ $(document).ready(function(){
         }); 
     }
 
-    function moreJobs(){
+    //api call when searching for additional jobs
+    function moreJobs(){  
+        if (isFirstCall){
+            isAfterFirstCall=true; 
+        }
+        isFirstCall=false; 
+        isBackwards=false;  
         if (ongoingJobCount === 20){
             page++;
             ongoingJobCount=0; 
@@ -116,7 +133,7 @@ $(document).ready(function(){
         $.ajax({
             url: theMuseURL,
             method: "GET"
-        }).then(function(response){
+        }).then(function(response){ 
             populateJobPostCards(ongoingJobCount, response); 
             deleteStar();   
             addStar(); 
@@ -124,20 +141,33 @@ $(document).ready(function(){
 
     }  
 
+    // api call when going back to the pervious job postings
     function backJobs(){ 
-        if(ongoingJobCount >5 || page >1){
-            ongoingJobCount -= 10;
-            if (ongoingJobCount <0 && page>1){
+        if (isFirstCall){
+            isAfterFirstCall=true; 
+        }
+        isFirstCall=false;
+        isLastResult=false;  
+        if(isAfterFirstCall){
+            ongoingJobCount -= (4+jobCount);
+            if (ongoingJobCount <=0 && page>1){
+                if (ongoingJobCount === -5){
                     ongoingJobCount = 15; 
                     page--; 
-            } 
+                } else {
+                    ongoingJobCount = 0
+                }
+            } else if (ongoingJobCount < 0 && page === 1){
+                    ongoingJobCount = 0;
+            }
             console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
             let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
-
+            console.log(theMuseURL); 
             $.ajax({
                 url: theMuseURL,
                 method: "GET"
             }).then(function(response){
+                console.log(response); 
                 populateJobPostCards(ongoingJobCount, response); 
                 deleteStar();   
                 addStar(); 
@@ -146,11 +176,13 @@ $(document).ready(function(){
         
     }
 
+    // api call for map 
     function getMap(){
         let mapquestUrl="https://open.mapquestapi.com/staticmap/v5/map?key="+mapquestApiKey+"&center="+searchLocation+"&size=600,400@2x"
         $("#mapImg").attr("src", mapquestUrl); 
     }
     
+    // determining which user alert message to show if no job postings
     function alertInput(){
         if (!isMessageHidden){
             let cityInput=$("#cityInput").val().trim(); 
@@ -172,6 +204,7 @@ $(document).ready(function(){
         }
     }
 
+    // retrieving saved jobs from local storage
     function getHistory(){
         savedJobs=JSON.parse(localStorage.getItem("savedJobs")); 
         if (savedJobs===null){
@@ -179,12 +212,14 @@ $(document).ready(function(){
         }
     }
 
+    // adding new job to local storage
     function addLocalStorage(newJobObject){
         savedJobs.push(newJobObject); 
         localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
         console.log(savedJobs); 
     }
 
+    // making sure saved job is not already saved before adding job
     function compareHistoryAndSave(newJobObject){
         getHistory();  
         let isUnique=false; 
@@ -208,6 +243,7 @@ $(document).ready(function(){
         }
     }
 
+    // writing new job card and determining if it should be saved- then calling functions to save it
     function saveJob(jobEl){ 
         console.log(jobEl); 
         let x=jobEl.find(".location").text(); 
@@ -222,6 +258,7 @@ $(document).ready(function(){
         }
     }
     
+    //wirting a new job card to add to the modal of saved jobs
     function addJobCardtoModal(currentJob){
         let htmlTemplate = 
                 `<div class="card-body savedJobCard">
@@ -240,8 +277,7 @@ $(document).ready(function(){
         let deletebtn = $("<button>");
         deletebtn.addClass("delete btn");
         deletebtn.text("Delete");
-        deletebtn.on("click", function(){
-            // event.stopPropagation(); 
+        deletebtn.on("click", function(){ 
             let currentJob= $(this).parentsUntil(".modal-body"); 
             deleteSavedJob(currentJob); 
         });
@@ -249,6 +285,7 @@ $(document).ready(function(){
         
     }
 
+    //deleting the selected job from the modal and local storage
     function deleteSavedJob(currentJob){ 
         getHistory(); 
         let currentDescription=$(currentJob).find(".description").text();
@@ -264,6 +301,7 @@ $(document).ready(function(){
 
     }
 
+    // putting all saved jobs into the saved job modal
     function populateModal(){ 
         getHistory();
         for (let i=0; i<savedJobs.length; i++){
@@ -272,19 +310,18 @@ $(document).ready(function(){
         }
     }
 
+    // removing all saved jobs from the modal and local storage
     function clearSavedJobs(){
-        debugger; 
         savedJobs=[]; 
         localStorage.clear(); 
         $(".savedJob").remove();
     }
 
+    // adding the star icon to the job card
     function addStar(jobEl){
-        debugger; 
         if (jobEl === undefined){
             getHistory(); 
-            let allDisplayedJobs=$(".job"); 
-            console.log(allDisplayedJobs); 
+            let allDisplayedJobs=$(".job");  
             for (let i=0; i<savedJobs.length; i++){
                 for (let j=0; j<allDisplayedJobs.length; j++){
                     let saved= savedJobs[i].description;
@@ -304,16 +341,19 @@ $(document).ready(function(){
         } 
     }
 
+    // hiding all star icons
     function deleteStar(){
         $(".far").hide(); 
     }
 
+    // functions required to start the page
     function initializePage(){
         getHistory(); 
         addButtons();  
         populateModal(); 
     }
 
+    // scroll to top of screen
     function topFunction() {
         $('html,body').animate({ scrollTop: 0 }, 400);
     }
@@ -325,7 +365,6 @@ $(document).ready(function(){
     }); 
 
     $(".save").on("click", function(){
-        debugger; 
         event.preventDefault();
         let jobEl= $(this).parentsUntil(".job");  
         saveJob(jobEl); 
