@@ -167,12 +167,10 @@ $(document).ready(function(){
             }
             console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
             let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
-            console.log(theMuseURL); 
             $.ajax({
                 url: theMuseURL,
                 method: "GET"
             }).then(function(response){
-                console.log(response); 
                 populateJobPostCards(ongoingJobCount, response); 
                 deleteStar();   
                 addStar(); 
@@ -192,7 +190,6 @@ $(document).ready(function(){
         if (!isMessageHidden){
             let cityInput=$("#cityInput").val().trim(); 
             cityInputArr= cityInput.split(", ");
-            console.log(cityInputArr);
             if (cityInputArr.length !==2 || cityInputArr[1].length !== 2){
                 $("#message").find("h3").text(messageError.h3);
                 $("#message").find("#p-one").text(messageError.p1);
@@ -221,7 +218,6 @@ $(document).ready(function(){
     function addLocalStorage(newJobObject){
         savedJobs.push(newJobObject); 
         localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
-        console.log(savedJobs); 
     }
 
     // making sure saved job is not already saved before adding job
@@ -250,7 +246,6 @@ $(document).ready(function(){
 
     // writing new job card and determining if it should be saved- then calling functions to save it
     function saveJob(jobEl){ 
-        console.log(jobEl); 
         let x=jobEl.find(".location").text(); 
         if (x !==""){
             let newJobObject={};
@@ -300,7 +295,6 @@ $(document).ready(function(){
             }
         }
         localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
-        console.log(currentJob); 
         $(currentJob).remove();
         console.log("job deleted"); 
 
@@ -333,7 +327,6 @@ $(document).ready(function(){
                     let current= $(allDisplayedJobs[j]).find(".description").text();
                     if (savedJobs[i].description=== $(allDisplayedJobs[j]).find(".description").text()){
                         let fav= $(allDisplayedJobs[j]).find(".far"); 
-                        console.log(fav); 
                         fav.removeAttr("hidden");
                         fav.show(); 
                     }
