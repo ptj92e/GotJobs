@@ -49,10 +49,10 @@ $(document).ready(function(){
             isMessageHidden=true;   
         } 
         let results= response.results;
-        jobCount=1;
         $(".job").show(); 
         let difference= results.length-ongoingJobCount; 
         if (difference !== 0 && !isLastResult){
+            jobCount=0;
             if (difference<5){
                 let startOfBlanks= difference+ 1;
                 while (startOfBlanks <6){
@@ -62,6 +62,7 @@ $(document).ready(function(){
                 isLastResult=true; 
             }
             for (let i=initial; i<results.length; i++){
+                jobCount++;
                 let jobEl=$("#job"+jobCount); 
                 jobEl.find(".location").text(results[i].locations[0].name); 
                 jobEl.find(".position").text(results[i].name); 
@@ -69,9 +70,8 @@ $(document).ready(function(){
                 jobEl.find(".description").attr("href", results[i].refs.landing_page); 
                 jobEl.find(".company").text(results[i].company.name); 
                 jobEl.find(".qualifications").text(results[i].levels[0].name); 
-                jobCount++; 
                 ongoingJobCount++; 
-                if(jobCount > 5){
+                if(jobCount === 5){
                     break; 
                 }
             }
@@ -121,7 +121,6 @@ $(document).ready(function(){
 
     //api call when searching for additional jobs
     function moreJobs(){  
-        debugger; 
         if (isFirstCall){
             isAfterFirstCall=true; 
         }
@@ -144,25 +143,24 @@ $(document).ready(function(){
     }  
 
     // api call when going back to the pervious job postings
-    function backJobs(){ 
-        debugger; 
+    function backJobs(){  
         if (isFirstCall){
             isAfterFirstCall=true; 
         }
         isFirstCall=false;
         isLastResult=false;
-        if(isAfterFirstCall){
+        if(isAfterFirstCall){ 
             if (isAfterNoResults){
                 ongoingJobCount -=jobCount
+                
             } else {
-                ongoingJobCount -= (4+jobCount);
+                ongoingJobCount -= (5+jobCount);
             }
-            if (ongoingJobCount <=0 && page>1){
-                if (ongoingJobCount === -5 || isAfterNoResults){
+            console.log("Go back to job# ", ongoingJobCount); 
+            if (ongoingJobCount <0 && page>1){
+                if (ongoingJobCount === -5){
                     ongoingJobCount = 15; 
                     page--; 
-                } else {
-                    ongoingJobCount = 0
                 }
             } else if (ongoingJobCount < 0 && page === 1){
                     ongoingJobCount = 0;
