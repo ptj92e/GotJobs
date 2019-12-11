@@ -19,9 +19,11 @@ In this application, we decided to use *themuse* and *Teleport* as our server si
 
 For **Teleport**, all that is needed is a city name and it can pull quality of life information for that city. The information can be anything from cost of living to leisure and comfort with so much in between. We thought it was appropriate to include this in our project because, if you are looking to relocate for a job, then it would be nice to know some general information about the city. 
 
+The last server-side API we decided to use for our project was a **Mapquest** API that provides a map of the city that is searched. When relocating for a job, it can be nice to see where the job is located, even if it is just a general map of the city. That can provide a lot of information as to what kind of place you may be moving to if you land a job. 
+
 ### Third Party API
 
-The third party API we decided to use for our project was a **Mapquest** API that provides a map of the city that is searched. When relocating for a job, it can be nice to see where the job is located, even if it is just a general map of the city. That can provide a lot of information as to what kind of place you may be moving to if you land a job. 
+The third-party API we used for this project is **Plotly.JS**. Plotly is "a high-level, declarative charting library." This allows the page to display the city scores in an understandable format, a score from 0 to 10. Plotly has many different chart styles that can be customizable to the desired appearance.    
 
 ### Polished UI and Styling
 
