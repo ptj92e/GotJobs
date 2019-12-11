@@ -60,7 +60,7 @@ $(document).ready(function () {
             };
             // console.log(cityData);
 
-            Plotly.newPlot("cityChart", data, layout);
+            Plotly.newPlot("cityChart", data, layout, {responsive: true});
         }).fail(function () {
             // console.log("Broken");
 
