@@ -158,7 +158,7 @@ $(document).ready(function(){
                 ongoingJobCount -= (4+jobCount);
             }
             if (ongoingJobCount <=0 && page>1){
-                if (ongoingJobCount === -5){
+                if (ongoingJobCount === -5 || isAfterNoResults){
                     ongoingJobCount = 15; 
                     page--; 
                 } else {
