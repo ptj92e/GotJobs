@@ -74,10 +74,8 @@ $(document).ready(function(){
                 if(jobCount === 5){
                     break; 
                 }
-            }
-            console.log("You are currently on the " +ongoingJobCount+ " job posting"); 
+            } 
         } else {  
-            console.log("There are no results"); 
             $("#message").removeAttr("hidden"); 
             $("#message").show(); 
             $("#message").find("h3").text(messageSorry.h3);
@@ -129,7 +127,6 @@ $(document).ready(function(){
             page++;
             ongoingJobCount=0; 
         }
-        console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
         let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
         $.ajax({
             url: theMuseURL,
@@ -156,7 +153,6 @@ $(document).ready(function(){
             } else {
                 ongoingJobCount -= (5+jobCount);
             }
-            console.log("Go back to job# ", ongoingJobCount); 
             if (ongoingJobCount <0 && page>1){
                 if (ongoingJobCount === -5){
                     ongoingJobCount = 15; 
@@ -164,8 +160,7 @@ $(document).ready(function(){
                 }
             } else if (ongoingJobCount < 0 && page === 1){
                     ongoingJobCount = 0;
-            }
-            console.log("The last listed job is #" + ongoingJobCount+"and the page searched is "+page)      
+            }    
             let theMuseURL="https://www.themuse.com/api/public/jobs?category="+category+"&location="+searchLocation+"&page="+page+"&api_key="+theMuseApiKey; 
             $.ajax({
                 url: theMuseURL,
@@ -236,12 +231,9 @@ $(document).ready(function(){
             isUnique=true; 
         }
         if (isUnique){
-            addLocalStorage(newJobObject); 
-            console.log("saving job"); 
+            addLocalStorage(newJobObject);  
             addJobCardtoModal(newJobObject); 
-        } else {
-            console.log("job already saved"); 
-        }
+        } 
     }
 
     // writing new job card and determining if it should be saved- then calling functions to save it
@@ -296,8 +288,6 @@ $(document).ready(function(){
         }
         localStorage.setItem("savedJobs", JSON.stringify(savedJobs)); 
         $(currentJob).remove();
-        console.log("job deleted"); 
-
     }
 
     // putting all saved jobs into the saved job modal
