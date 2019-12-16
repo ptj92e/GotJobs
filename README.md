@@ -48,3 +48,5 @@ If the city is not within the database of Teleport, a card pops up that says tha
 Under the chart, the **Mapquest** API populates a map of the city that is searched. 
 
 Here is the link to our GitHub Pages: https://jamiekook.github.io/GotJobs/
+
+![image of webpage](assets/images/GotJobs.png)
