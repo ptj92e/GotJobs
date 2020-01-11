@@ -33,10 +33,17 @@ h3 {
 p {
     font-family: 'Source Sans Pro', sans-serif;
 }
+#homePage {
+    margin-bottom: 80px;
+}
+#homePage h1 {
+    color: black;
+}
 .card-body {
     background-color: rgba(220, 220, 220, 0.8);
     overflow: hidden;
     max-width: 70vh;
+    border-radius: 5px;
 }
 .btn {
     background-color: #79387c;
